@@ -1,45 +1,197 @@
 <!DOCTYPE html>
-
 <html lang="ko">
-
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>최소공배수 계산기</title>
 
-  <meta charset="UTF-8">
+<style>
+*{box-sizing:border-box}
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:Arial,sans-serif;
+  background:linear-gradient(135deg,#eaf2ff,#f8efff);
+}
 
-  <title>최소공배수 계산기</title>
+.box{
+  width:90%;
+  max-width:500px;
+  padding:30px;
+  background:white;
+  border-radius:25px;
+  text-align:center;
+  box-shadow:0 15px 40px #0002;
+}
 
-  <style>
+h1{
+  margin-top:0;
+}
 
-    * {
+input{
+  width:45%;
+  padding:15px;
+  margin:5px;
+  border:2px solid #ddd;
+  border-radius:12px;
+  font-size:20px;
+}
 
-      box-sizing: border-box;
+button{
+  width:100%;
+  padding:16px;
+  margin-top:15px;
+  border:0;
+  border-radius:12px;
+  background:#4169e1;
+  color:white;
+  font-size:18px;
+  font-weight:bold;
+}
 
-    }
+#error{
+  color:red;
+  margin-top:10px;
+}
 
-    body {
+#screen{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#0004;
+  backdrop-filter:blur(10px);
+  opacity:0;
+  pointer-events:none;
+  transition:.3s;
+}
 
-      margin: 0;
+#screen.show{
+  opacity:1;
+  pointer-events:auto;
+}
 
-      min-height: 100vh;
+.result{
+  background:white;
+  padding:40px;
+  width:85%;
+  max-width:450px;
+  border-radius:25px;
+  text-align:center;
+  transform:scale(.7);
+  transition:.3s;
+}
 
-      display: flex;
+#screen.show .result{
+  transform:scale(1);
+}
 
-      align-items: center;
+#answer{
+  font-size:60px;
+  font-weight:bold;
+  margin:20px 0;
+  word-break:break-all;
+}
 
-      justify-content: center;
+.close{
+  background:#222;
+}
+</style>
+</head>
 
-      padding: 20px;
+<body>
 
-      font-family:
+<div class="box">
 
-        -apple-system,
+<h1>🔢 최소공배수 계산기</h1>
 
-        BlinkMacSystemFont,
+<input id="a" type="number" placeholder="첫 번째 수">
+<input id="b" type="number" placeholder="두 번째 수">
 
-        "Segoe UI",
+<button onclick="calculate()">
+최소공배수 구하기
+</button>
 
-        sans-serif;
+<div id="error"></div>
 
-      background: linear-gra
+</div>
+
+
+<div id="screen">
+
+<div class="result">
+
+<div>최소공배수</div>
+
+<div id="answer"></div>
+
+<button class="close" onclick="closeResult()">
+닫기
+</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+function gcd(a,b){
+
+while(b){
+
+let r=a%b;
+
+a=b;
+b=r;
+
+}
+
+return a;
+
+}
+
+
+function calculate(){
+
+let a=Number(document.getElementById("a").value);
+let b=Number(document.getElementById("b").value);
+
+if(!Number.isInteger(a)||!Number.isInteger(b)||a<1||b<1){
+
+document.getElementById("error").textContent=
+"1 이상의 자연수를 입력해주세요.";
+
+return;
+
+}
+
+document.getElementById("error").textContent="";
+
+let g=gcd(a,b);
+
+let lcm=(a/g)*b;
+
+document.getElementById("answer").textContent=
+lcm.toLocaleString();
+
+document.getElementById("screen").classList.add("show");
+
+}
+
+
+function closeResult(){
+
+document.getElementById("screen").classList.remove("show");
+
+}
+
+</script>
+
+</body>
+</html>
